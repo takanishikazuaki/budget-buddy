@@ -13,7 +13,7 @@
 import { computed } from 'vue'
 import { useTransactionStore } from '../stores/transactionStore'
 import MonthlyBarChart from '../components/MonthlyBarChart.vue'
-import type { Transaction } from '../stores/transactionStore'
+import type { Transaction } from '../types/Transaction'
 import { onMounted } from 'vue'
 
 const transactionStore = useTransactionStore()
@@ -23,41 +23,42 @@ onMounted(() => {
   if (transactionStore.transactions.length === 0) {
     transactionStore.addTransaction({
       id: 'dummy1',
-      cardId: 'test-card',
+      cardId: 'paypay',
       date: '2025-07-01',
       amount: 4500,
-      memo: 'カフェ'
+      memo: 'スターバックス'
     })
     transactionStore.addTransaction({
       id: 'dummy2',
-      cardId: 'test-card',
+      cardId: 'paypay',
       date: '2025-07-05',
       amount: 9800,
-      memo: 'ネットショッピング'
+      memo: 'Amazon購入'
     })
     transactionStore.addTransaction({
       id: 'dummy3',
-      cardId: 'test-card',
+      cardId: 'rakuten',
       date: '2025-08-02',
       amount: 1200,
-      memo: 'コンビニ'
+      memo: 'セブンイレブン'
     })
-       transactionStore.addTransaction({
+    transactionStore.addTransaction({
       id: 'dummy4',
-      cardId: 'test-card',
-      date: '2025-08-02',
-      amount: 1200,
-      memo: 'コンビニ'
+      cardId: 'rakuten',
+      date: '2025-08-15',
+      amount: 3000,
+      memo: '書籍購入'
     })
-       transactionStore.addTransaction({
+    transactionStore.addTransaction({
       id: 'dummy5',
-      cardId: 'test-card',
+      cardId: 'sbi',
       date: '2025-03-02',
-      amount: 1200,
-      memo: 'コンビニ'
+      amount: 5000,
+      memo: 'クレカ引き落とし'
     })
   }
 })
+
 
 
 function groupByMonth(transactions: Transaction[]): Record<string, number> {

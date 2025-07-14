@@ -1,21 +1,23 @@
-// utils/parsePayPayCSV.ts
-import Papa from 'papaparse'
-import type { Transaction } from '../stores/transactionStore'
+export interface ParsedTransaction {
+  date: string
+  amount: number
+  memo: string
+}
 
-export function parsePayPayCSV(csvText: string): Transaction[] {
-  const results = Papa.parse(csvText, {
-    header: true,
-    skipEmptyLines: true,
-  })
+export function parsePayPayCSV(data: any[]): ParsedTransaction[] {
+  return data
+    .filter((row) => row['取引内容'] === '支払い')
+    .map((row) => {
+      const rawDate = row['取引日']?.trim() ?? ''
+      const date = rawDate.split(' ')[0] // "2025-07-13 12:00:00" → "2025-07-13"
+      const amountStr = row['出金金額（円）']?.replace(/,/g, '').trim() ?? '0'
+      const amount = parseFloat(amountStr)
+      const memo = row['取引先']?.trim() ?? ''
 
-  return results.data.map((row: any, index: number): Transaction => ({
-    id: `paypay-${index}`,
-    cardId: 'paypay',
-    date: row['利用日'],
-    category: row['カテゴリ'] || '',
-    amount: Number(row['利用金額（税込）'].replace(/,/g, '')) || 0,
-    paymentMethod: row['支払方法'] || '',
-    merchant: row['利用先（加盟店名）'] || '',
-    status: row['ステータス'] || '',
-  }))
+      return {
+        date,
+        amount,
+        memo
+      }
+    })
 }
