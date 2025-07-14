@@ -68,7 +68,8 @@ function registerTransactions() {
       date: row.date,
       amount: row.amount,
       memo: row.memo,
-      cardId: paypayCardId
+      cardId: paypayCardId,
+      categoryId:'適当なのだ'
     })
   }
 

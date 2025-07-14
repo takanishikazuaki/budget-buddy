@@ -6,4 +6,5 @@ export interface Transaction {
   date: string            // 日付（YYYY-MM-DD）
   amount: number          // 金額（マイナスで出金）
   memo?: string           // メモ（任意）
+  categoryId:string
 }
