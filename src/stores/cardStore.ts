@@ -1,6 +1,6 @@
 // stores/cardStore.ts
 import { defineStore } from 'pinia'
-import type { Card } from '../types/Card'
+import type { Card } from '../types/card'
 
 export const useCardStore = defineStore('card', {
   state: () => ({
