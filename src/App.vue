@@ -16,20 +16,51 @@
 import HeaderNav from './components/HeaderNav.vue'
 import FooterTab from './components/FooterTab.vue'
 </script> -->
+<!-- App.vue -->
 <template>
-  <div class="min-h-screen bg-gray-100 p-8">
-    <h1 class="text-2xl font-bold mb-4 text-blue-600">Naive UI + Tailwind テスト</h1>
+  <n-message-provider>
+    <div class="min-h-screen bg-gray-100 p-8 space-y-4">
+      <n-button type="primary">Primary</n-button>
+      <n-button type="info">Info</n-button>
+      <n-button type="success">Success</n-button>
+      <n-button type="warning">Warning</n-button>
+      <n-button type="error">Error</n-button>
 
-    <!-- Naive UI ボタン -->
-    <n-button type="primary" class="mr-4">Naive ボタン</n-button>
+      <n-input placeholder="名前を入力してください" />
 
-    <!-- Tailwind のみでスタイリングされたボタン -->
-    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-      Tailwind ボタン
-    </button>
-  </div>
+      <n-select
+        v-model:value="selected"
+        :options="[
+          { label: 'Vue', value: 'vue' },
+          { label: 'React', value: 'react' },
+          { label: 'Svelte', value: 'svelte' }
+        ]"
+        placeholder="好きなフレームワーク"
+      />
+
+      <n-switch v-model:value="isOn" />
+
+      <n-button @click="showMessage">メッセージ表示</n-button>
+    </div>
+  </n-message-provider>
 </template>
 
 <script setup>
-import { NButton } from 'naive-ui'
+import { ref } from 'vue'
+import {
+  NButton,
+  NInput,
+  NSelect,
+  NSwitch,
+  useMessage,
+  NMessageProvider
+} from 'naive-ui'
+
+const selected = ref(null)
+const isOn = ref(false)
+const message = useMessage()
+
+function showMessage() {
+  message.success('これは Naive UI のメッセージです！')
+}
 </script>
