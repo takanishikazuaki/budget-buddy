@@ -1,72 +1,113 @@
 <template>
-  <div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-    <h2 class="text-2xl font-bold">手入力で支出を追加</h2>
+  <n-card
+    title="手入力で支出を追加"
+    size="large"
+    class="max-w-md mx-auto shadow-md"
+    :bordered="false"
+    embedded
+  >
+    <n-form @submit.prevent="submitTransaction" label-placement="top">
+      <n-space vertical size="large">
+        <n-form-item label="日付">
+          <n-date-picker v-model:value="form.date" type="date" clearable />
+        </n-form-item>
 
-    <form @submit.prevent="submitTransaction" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium">日付</label>
-        <input type="date" v-model="form.date" class="input" required />
-      </div>
+        <n-form-item label="金額">
+          <n-input-number
+            v-model:value="form.amount"
+            placeholder="金額を入力"
+            :min="0"
+            clearable
+          />
+        </n-form-item>
 
-      <div>
-        <label class="block text-sm font-medium">金額</label>
-        <input type="number" v-model.number="form.amount" class="input" required />
-      </div>
+        <n-form-item label="メモ">
+          <n-input
+            v-model:value="form.memo"
+            placeholder="例: コンビニ"
+            clearable
+          />
+        </n-form-item>
 
-      <div>
-        <label class="block text-sm font-medium">メモ</label>
-        <input type="text" v-model="form.memo" class="input" placeholder="例: コンビニ" />
-      </div>
+        <n-form-item label="使用カード">
+          <n-select
+            v-model:value="form.cardId"
+            :options="cardOptions"
+            placeholder="カードを選択"
+            clearable
+          />
+        </n-form-item>
 
-      <div>
-        <label class="block text-sm font-medium">使用カード</label>
-        <select v-model="form.cardId" class="input" required>
-          <option disabled value="">カードを選択</option>
-          <option v-for="card in cardStore.cards" :key="card.id" :value="card.id">
-            {{ card.name }}
-          </option>
-        </select>
-      </div>
+        <n-form-item label="カテゴリ">
+          <n-select
+            v-model:value="form.categoryId"
+            :options="categoryOptions"
+            placeholder="カテゴリを選択"
+            clearable
+          />
+        </n-form-item>
 
-      <div>
-        <label class="block text-sm font-medium">カテゴリ</label>
-        <select v-model="form.categoryId" class="input" required>
-          <option disabled value="">カテゴリを選択</option>
-          <option v-for="cat in categoryStore.categories" :key="cat.id" :value="cat.id">
-            {{ cat.name }}
-          </option>
-        </select>
-      </div>
-
-      <button type="submit" class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-        登録する
-      </button>
-    </form>
-  </div>
+        <n-button type="primary" block attr-type="submit" size="large">
+          🎮 登録する
+        </n-button>
+      </n-space>
+    </n-form>
+  </n-card>
 </template>
 
+
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useTransactionStore } from '../stores/transactionStore'
 import { useCardStore } from '../stores/cardStore'
 import { useCategoryStore } from '../stores/categoryStore'
+import {
+  NForm,
+  NFormItem,
+  NInput,
+  NSelect,
+  NButton,
+  NDatePicker,
+  NInputNumber
+} from 'naive-ui'
 
 const transactionStore = useTransactionStore()
 const cardStore = useCardStore()
 const categoryStore = useCategoryStore()
 
-const form = ref({
-  date: '',
+const form = ref<{
+  date: number | null
+  amount: number
+  memo: string
+  cardId: string
+  categoryId: string
+}>({
+  date: null,
   amount: 0,
   memo: '',
   cardId: '',
   categoryId: ''
 })
 
+
+const cardOptions = computed(() =>
+  cardStore.cards.map((card) => ({
+    label: card.name,
+    value: card.id
+  }))
+)
+
+const categoryOptions = computed(() =>
+  categoryStore.categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id
+  }))
+)
+
 function submitTransaction() {
   transactionStore.addTransaction({
     id: crypto.randomUUID(),
-    date: form.value.date,
+    date: form.value.date ? new Date(form.value.date).toISOString().split('T')[0] : '',
     amount: form.value.amount,
     memo: form.value.memo,
     cardId: form.value.cardId,
@@ -74,23 +115,12 @@ function submitTransaction() {
   })
 
   form.value = {
-    date: '',
+    date: null,
     amount: 0,
     memo: '',
     cardId: '',
     categoryId: ''
   }
-
-  alert('登録が完了しました')
 }
 </script>
 
-<style scoped>
-.input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.375rem;
-  font-size: 1rem;
-}
-</style>

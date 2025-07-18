@@ -1,66 +1,66 @@
-<!-- <template>
-  <header class="text-center py-2 font-bold text-lg bg-gray-200">
-    キャッシュレス決済家計簿
-  </header>
+<template>
+  <n-config-provider :theme-overrides="naiveTheme">
+    <div class="min-h-screen flex flex-col bg-[#fdfdfd] font-['M_PLUS_Rounded_1c'] text-gray-900">
+      <header class="bg-[#e60012] text-white py-4 px-6 text-2xl font-bold shadow-md rounded-b-lg">
+        キャッシュレス決済家計簿
+      </header>
 
-  <HeaderNav />
+      <HeaderNav />
 
-  <main class="flex-grow pb-16">
-    <RouterView />
-  </main>
+      <main class="flex-grow px-4 pt-4 max-w-3xl mx-auto w-full">
+        <n-message-provider>
+          <RouterView />
+        </n-message-provider>
+      </main>
 
-  <FooterTab />
+      <FooterTab />
+    </div>
+  </n-config-provider>
 </template>
+
+
 
 <script setup lang="ts">
 import HeaderNav from './components/HeaderNav.vue'
 import FooterTab from './components/FooterTab.vue'
-</script> -->
-<!-- App.vue -->
-<template>
-  <n-message-provider>
-    <div class="min-h-screen bg-gray-100 p-8 space-y-4">
-      <n-button type="primary">Primary</n-button>
-      <n-button type="info">Info</n-button>
-      <n-button type="success">Success</n-button>
-      <n-button type="warning">Warning</n-button>
-      <n-button type="error">Error</n-button>
+import { NConfigProvider, NMessageProvider } from 'naive-ui'
+import type { GlobalThemeOverrides } from 'naive-ui'
 
-      <n-input placeholder="名前を入力してください" />
-
-      <n-select
-        v-model:value="selected"
-        :options="[
-          { label: 'Vue', value: 'vue' },
-          { label: 'React', value: 'react' },
-          { label: 'Svelte', value: 'svelte' }
-        ]"
-        placeholder="好きなフレームワーク"
-      />
-
-      <n-switch v-model:value="isOn" />
-
-      <n-button @click="showMessage">メッセージ表示</n-button>
-    </div>
-  </n-message-provider>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-import {
-  NButton,
-  NInput,
-  NSelect,
-  NSwitch,
-  useMessage,
-  NMessageProvider
-} from 'naive-ui'
-
-const selected = ref(null)
-const isOn = ref(false)
-const message = useMessage()
-
-function showMessage() {
-  message.success('これは Naive UI のメッセージです！')
+const naiveTheme: GlobalThemeOverrides = {
+  common: {
+    primaryColor: '#e60012',
+    primaryColorHover: '#cc0010',
+    primaryColorPressed: '#b3000f',
+    primaryColorSuppl: '#e60012',
+    baseColor: '#fdfdfd',
+    borderRadius: '12px',
+    fontWeightStrong: '600',
+  },
+  Button: {
+    colorPrimary: '#e60012',
+    colorPrimaryHover: '#cc0010',
+    colorPrimaryPressed: '#b3000f',
+    textColorPrimary: '#ffffff',
+    borderRadius: '9999px', // pill型
+  },
+  Input: {
+    borderRadius: '10px',
+    caretColor: '#e60012',
+    borderColorFocus: '#e60012',
+  },
+  Card: {
+    color: '#ffffff',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+    borderRadius: '16px',
+  },
+  Tabs: {
+    tabTextColorActiveLine: '#e60012',
+    tabTextColorActiveBar: '#e60012'
+  },
+  Message: {
+    colorInfo: '#e60012',
+  }
 }
+
+
 </script>
