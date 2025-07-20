@@ -21,18 +21,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useMonthStore } from '../stores/useMonthStore'
+const monthStore = useMonthStore()
+
+const currentYear = computed(() => monthStore.year)
+const currentMonth = computed(() => monthStore.month)
 
 const props = defineProps<{
-  data: Record<string, number>  // e.g., { '2025-07-01': 1234 }
-  year: number
-  month: number  // 0-based (e.g. July = 6)
+  data: Record<string, number>
 }>()
+
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const calendarMatrix = computed(() => {
-  const firstDay = new Date(props.year, props.month, 1)
-  const lastDate = new Date(props.year, props.month + 1, 0).getDate()
+  const firstDay = new Date(currentYear.value, currentMonth.value, 1)
+  const lastDate = new Date(currentYear.value, currentMonth.value + 1, 0).getDate()
   const matrix: { date: Date | null; total: number }[] = []
 
   for (let i = 0; i < firstDay.getDay(); i++) {
@@ -40,7 +44,7 @@ const calendarMatrix = computed(() => {
   }
 
   for (let day = 1; day <= lastDate; day++) {
-    const date = new Date(props.year, props.month, day)
+    const date = new Date(currentYear.value, currentMonth.value, day)
     const key = date.toISOString().split('T')[0]
     matrix.push({
       date,

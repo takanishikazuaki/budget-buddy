@@ -50,6 +50,18 @@
         <n-button type="primary" block attr-type="submit" size="large">
           🎮 登録する
         </n-button>
+
+    <n-form-item label="テンプレート選択">
+      <n-select
+        v-model:value="selectedTemplateId"
+        :options="templateOptions"
+        placeholder="テンプレートを選択"
+        clearable
+        @update:value="applyTemplate"
+      />
+    </n-form-item>
+
+
       </n-space>
     </n-form>
   </n-card>
@@ -60,6 +72,7 @@
 import { ref, computed } from 'vue'
 import { useTransactionStore } from '../stores/transactionStore'
 import { useCardStore } from '../stores/cardStore'
+import { useTemplateStore } from '../stores/templateStore'
 import { useCategoryStore } from '../stores/categoryStore'
 import {
   NForm,
@@ -74,6 +87,7 @@ import {
 const transactionStore = useTransactionStore()
 const cardStore = useCardStore()
 const categoryStore = useCategoryStore()
+const templateStore = useTemplateStore()
 
 const form = ref<{
   date: number | null
@@ -89,6 +103,24 @@ const form = ref<{
   categoryId: ''
 })
 
+const selectedTemplateId = ref<string | null>(null)
+
+const templateOptions = computed(() =>
+  templateStore.templates.map((tpl: { name: any; id: any }) => ({
+    label: tpl.name,
+    value: tpl.id
+  }))
+)
+
+function applyTemplate(id: string | null) {
+  const tpl = templateStore.templates.find((t: { id: string | null }) => t.id === id)
+  if (tpl) {
+    form.value.amount = tpl.amount
+    form.value.memo = tpl.memo
+    form.value.cardId = tpl.cardId
+    form.value.categoryId = tpl.categoryId
+  }
+}
 
 const cardOptions = computed(() =>
   cardStore.cards.map((card) => ({

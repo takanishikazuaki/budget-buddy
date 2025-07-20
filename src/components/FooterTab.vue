@@ -1,9 +1,8 @@
 <template>
-    <n-bbutton></n-bbutton>
-  <footer class="fixed bottom-0 left-0 w-full bg-white border-t flex justify-around items-center h-14 z-50">
-    <button @click="$router.push('/')">入力欄</button>
-    <button @click="$router.push('/calendar')">カレンダー</button>
-    <button @click="$router.push('/dashboard')">グラフ</button>
-    <button @click="$router.push('/settings')">設定</button>
-  </footer>
+  <nav class="flex justify-around bg-red-600 text-white py-2">
+    <RouterLink to="/" class="hover:underline">手入力</RouterLink>
+    <RouterLink to="/csv-import" class="hover:underline">CSV</RouterLink>
+    <RouterLink to="/dashboard" class="hover:underline">分析</RouterLink>
+    <RouterLink to="/calendar" class="hover:underline">カレンダー</RouterLink> <!-- 追加 -->
+  </nav>
 </template>

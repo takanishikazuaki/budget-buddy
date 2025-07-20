@@ -49,11 +49,6 @@
         <MonthlyTransactionCountChart :data="monthlyTransactionCounts" />
       </section>
 
-      <section class="mb-6">
-        <h3 class="text-lg font-semibold mb-2">日別支出ヒートマップ（今月）</h3>
-        <CalendarHeatMap :data="dailyTotals" :year="currentYear" :month="currentMonth" />
-      </section>
-
     </div>
 
 
@@ -76,12 +71,6 @@ import CardPieChart from '../components/CardPieChart.vue'
 import WeeklyBarChart from '../components/WeeklyBarChart.vue'
 import StackedBarChart from '../components/StackedBarChart.vue'
 import MonthlyTransactionCountChart from '../components/MonthlyTransactionCountChart.vue'
-import CalendarHeatMap from '../components/CalendarHeatMap.vue'
-
-const now = new Date()
-const currentYear = now.getFullYear()
-const currentMonth = now.getMonth()
-
 
 const activeTab = ref<'month' | 'year'>('month')
 const transactionStore = useTransactionStore()
@@ -131,6 +120,7 @@ onMounted(() => {
     })
   }
 })
+
 
 
 // 月別集計
