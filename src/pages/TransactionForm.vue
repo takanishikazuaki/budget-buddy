@@ -69,6 +69,7 @@
 
 
 <script setup lang="ts">
+import { createTransaction } from '../services/transactionService.js' // ← これ追加
 import { ref, computed } from 'vue'
 import { useTransactionStore } from '../stores/transactionStore'
 import { useCardStore } from '../stores/cardStore'
@@ -136,23 +137,34 @@ const categoryOptions = computed(() =>
   }))
 )
 
-function submitTransaction() {
-  transactionStore.addTransaction({
-    id: crypto.randomUUID(),
-    date: form.value.date ? new Date(form.value.date).toISOString().split('T')[0] : '',
-    amount: form.value.amount,
-    memo: form.value.memo,
-    cardId: form.value.cardId,
-    categoryId: form.value.categoryId
-  })
 
-  form.value = {
-    date: null,
-    amount: 0,
-    memo: '',
-    cardId: '',
-    categoryId: ''
+
+async function submitTransaction() {
+  const payload = {
+  date: form.value.date
+    ? new Date(form.value.date).toISOString().split('T')[0]
+    : '',
+  amount: form.value.amount,
+  memo: form.value.memo,  
+  card_id: form.value.cardId,
+  category_id: form.value.categoryId
+}
+  try {
+    const response = await createTransaction(payload) // ← サービス経由で呼び出し
+    console.log('登録成功:', response.data)
+
+    form.value = {
+      date: null,
+      amount: 0,
+      memo: '',
+      cardId: '',
+      categoryId: ''
+    }
+  } catch (error) {
+    console.error('登録失敗:', error)
   }
 }
+
+
 </script>
 
