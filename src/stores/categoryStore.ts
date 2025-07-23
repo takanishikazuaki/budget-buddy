@@ -1,22 +1,34 @@
 import { defineStore } from 'pinia'
-
-export interface Category {
-  id: string
-  name: string
-  color: string  // ← 追加
-}
-
+import type { Category, CategoryCreate } from '../types/category'
+import * as categoryService from '../services/categoryService'
 
 export const useCategoryStore = defineStore('category', {
   state: () => ({
     categories: [] as Category[]
   }),
   actions: {
-    addCategory(category: Category) {
-      this.categories.push(category)
+    async loadCategories() {
+      try {
+        this.categories = await categoryService.fetchCategories()
+      } catch (e) {
+        console.error('カテゴリ取得失敗', e)
+      }
     },
-    removeCategory(id: string) {
-      this.categories = this.categories.filter(cat => cat.id !== id)
+    async addCategory(category: CategoryCreate) {
+      try {
+        const newCategory = await categoryService.createCategory(category)
+        this.categories.push(newCategory)
+      } catch (e) {
+        console.error('カテゴリ追加失敗', e)
+      }
+    },
+    async removeCategory(id: string) {
+      try {
+        await categoryService.deleteCategory(id)
+        this.categories = this.categories.filter(c => c.id !== id)
+      } catch (e) {
+        console.error('カテゴリ削除失敗', e)
+      }
     }
   }
 })

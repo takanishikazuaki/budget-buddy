@@ -8,3 +8,9 @@ export interface Transaction {
   memo?: string           // メモ（任意）
   categoryId:string
 }
+
+//新規作成時idを除いた型
+export type TransactionCreate = Omit<Transaction, 'id'> & {
+  memo?: string  // 省略可能にする
+}
+
