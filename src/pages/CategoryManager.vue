@@ -37,22 +37,26 @@
 import { ref } from 'vue'
 import { useCategoryStore } from '../stores/categoryStore'
 import { nanoid } from 'nanoid'
+import { onMounted } from 'vue'
 
 const categoryStore = useCategoryStore()
 const newCategoryName = ref('')
 const newCategoryColor = ref('#ff0000') // デフォルト色
 
-function addCategory() {
+onMounted(() => {
+  categoryStore.loadCategories()
+})
+
+async function addCategory() {
   if (!newCategoryName.value.trim()) return
 
-  const newCategory = {
-    id: nanoid(6),
+  await categoryStore.addCategory({
     name: newCategoryName.value.trim(),
     color: newCategoryColor.value
-  }
+  })
 
-  categoryStore.addCategory(newCategory)
   newCategoryName.value = ''
   newCategoryColor.value = '#ff0000'
 }
+
 </script>

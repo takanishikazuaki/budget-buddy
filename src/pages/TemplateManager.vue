@@ -86,9 +86,9 @@ const categoryOptions = computed(() =>
   }))
 )
 
-function addTemplate() {
-  templateStore.addTemplate({
-    id: crypto.randomUUID(),
+async function addTemplate() {
+  // idはバックエンド生成なので渡さない
+  await templateStore.addTemplate({
     name: newTemplate.value.name,
     amount: newTemplate.value.amount,
     memo: newTemplate.value.memo,
@@ -104,4 +104,5 @@ function addTemplate() {
     categoryId: ''
   }
 }
+
 </script>

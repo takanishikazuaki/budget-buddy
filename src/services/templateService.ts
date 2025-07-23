@@ -1,5 +1,6 @@
+import humps from 'humps'
 import { apiClient } from './apiClient'
-import { TemplateCreate} from '../types/template'
+import { TemplateCreate } from '../types/template'
 
 export interface Template extends TemplateCreate {
   id: string
@@ -7,12 +8,16 @@ export interface Template extends TemplateCreate {
 
 export async function fetchTemplates(): Promise<Template[]> {
   const response = await apiClient.get('/templates/')
-  return response.data
+  // 受信データをキャメルケース化
+  return humps.camelizeKeys(response.data) as Template[]
 }
 
 export async function createTemplate(template: TemplateCreate): Promise<Template> {
-  const response = await apiClient.post('/templates/', template)
-  return response.data
+  // 送信データをスネークケース化
+  const payload = humps.decamelizeKeys(template)
+  const response = await apiClient.post('/templates/', payload)
+  // 受信データをキャメルケース化
+  return humps.camelizeKeys(response.data) as Template
 }
 
 export async function deleteTemplate(id: string): Promise<void> {

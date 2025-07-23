@@ -136,9 +136,8 @@ const categoryOptions = computed(() =>
   }))
 )
 
-function submitTransaction() {
-  transactionStore.addTransaction({
-    id: crypto.randomUUID(),
+async function submitTransaction() {
+  await transactionStore.addTransaction({
     date: form.value.date ? new Date(form.value.date).toISOString().split('T')[0] : '',
     amount: form.value.amount,
     memo: form.value.memo,

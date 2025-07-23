@@ -28,19 +28,28 @@
 import { ref } from 'vue'
 import { useCardStore } from '../stores/cardStore'
 import { nanoid } from 'nanoid'
+import { onMounted } from 'vue'
 
 const cardStore = useCardStore()
 const newCardName = ref('')
 
-function addCard() {
+onMounted(() => {
+  cardStore.loadCards()
+})
+
+async function addCard() {
   if (!newCardName.value.trim()) return
 
-  const newCard = {
-    id: nanoid(6), // 簡易IDでOK
+  // バックエンドに送るデータ（IDは含めない）
+  const newCardData = {
     name: newCardName.value.trim()
   }
 
-  cardStore.addCard(newCard)
+  // API通信して登録＆ストア更新
+  await cardStore.addCard(newCardData)
+
+  // フォームリセット
   newCardName.value = ''
 }
+
 </script>
