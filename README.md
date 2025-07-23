@@ -8,3 +8,6 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 ・報告スケジュール・内容の擦り合わせ
 ・作るプロダクトの詳細設計（モック）
 ・段取りの確認
+・エラー修正
+・二段埋め込んだ後に自動で別の入力欄に移動する
+・プルダウン絞り込み
