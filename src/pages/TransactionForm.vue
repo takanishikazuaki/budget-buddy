@@ -89,14 +89,16 @@ const cardStore = useCardStore()
 const categoryStore = useCategoryStore()
 const templateStore = useTemplateStore()
 
+const today = new Date().toISOString().split('T')[0]
+
 const form = ref<{
-  date: number | null
+  date: string | null
   amount: number
   memo: string
   cardId: string
   categoryId: string
 }>({
-  date: null,
+  date: today,  // 当日の日付文字列セット
   amount: 0,
   memo: '',
   cardId: '',
