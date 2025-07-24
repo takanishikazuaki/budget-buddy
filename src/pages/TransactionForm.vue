@@ -8,10 +8,12 @@
   >
     <n-form @submit.prevent="submitTransaction" label-placement="top">
       <n-space vertical size="large">
+        <!-- 日付 -->
         <n-form-item label="日付">
           <n-date-picker v-model:value="form.date" type="date" clearable />
         </n-form-item>
 
+        <!-- 金額 -->
         <n-form-item label="金額">
           <n-input-number
             v-model:value="form.amount"
@@ -21,23 +23,7 @@
           />
         </n-form-item>
 
-        <n-form-item label="メモ">
-          <n-input
-            v-model:value="form.memo"
-            placeholder="例: コンビニ"
-            clearable
-          />
-        </n-form-item>
-
-        <n-form-item label="使用カード">
-          <n-select
-            v-model:value="form.cardId"
-            :options="cardOptions"
-            placeholder="カードを選択"
-            clearable
-          />
-        </n-form-item>
-
+        <!-- カテゴリ -->
         <n-form-item label="カテゴリ">
           <n-select
             v-model:value="form.categoryId"
@@ -47,25 +33,46 @@
           />
         </n-form-item>
 
+        <!-- 使用カード -->
+        <n-form-item label="使用カード">
+          <n-select
+            v-model:value="form.cardId"
+            :options="cardOptions"
+            placeholder="カードを選択"
+            clearable
+          />
+        </n-form-item>
+
+        <!-- メモ -->
+        <n-form-item label="メモ">
+          <n-input
+            v-model:value="form.memo"
+            placeholder="例: コンビニ"
+            clearable
+          />
+        </n-form-item>
+
+        <!-- 登録ボタン -->
         <n-button type="primary" block attr-type="submit" size="large">
           🎮 登録する
         </n-button>
 
-    <n-form-item label="テンプレート選択">
-      <n-select
-        v-model:value="selectedTemplateId"
-        :options="templateOptions"
-        placeholder="テンプレートを選択"
-        clearable
-        @update:value="applyTemplate"
-      />
-    </n-form-item>
-
+        <!-- テンプレート選択 -->
+        <n-form-item label="テンプレート選択">
+          <n-select
+            v-model:value="selectedTemplateId"
+            :options="templateOptions"
+            placeholder="テンプレートを選択"
+            clearable
+            @update:value="applyTemplate"
+          />
+        </n-form-item>
 
       </n-space>
     </n-form>
   </n-card>
 </template>
+
 
 
 <script setup lang="ts">

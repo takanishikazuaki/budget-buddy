@@ -23,6 +23,17 @@ export const useTransactionStore = defineStore('transaction', {
         console.error('Failed to add transaction', error)
       }
     },
+    async updateTransaction(id: string, tx: TransactionCreate) {
+      try {
+        const updatedTx = await transactionService.updateTransaction(id, tx)
+        const index = this.transactions.findIndex(t => t.id === id)
+        if (index !== -1) {
+          this.transactions[index] = updatedTx
+        }
+      } catch (error) {
+        console.error('Failed to update transaction', error)
+      }
+    },
     clearTransactions() {
       this.transactions = []
     },
