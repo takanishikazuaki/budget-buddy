@@ -1,46 +1,63 @@
 <template>
-  <div class="p-4 max-w-md mx-auto">
-    <h2 class="text-xl font-semibold mb-4">カードの管理</h2>
+  <div>
+    <h2>カードの管理</h2>
+    <n-form @submit.prevent="addCard">
+      <n-form-item label="カード名">
+        <n-input v-model:value="newCardName" placeholder="カード名を入力" />
+      </n-form-item>
 
-    <form @submit.prevent="addCard" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium">カード名</label>
-        <input v-model="newCardName" type="text" class="border px-2 py-1 w-full" />
-      </div>
-
-      <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded">
-        追加
-      </button>
-    </form>
+      <n-button type="primary" native-type="submit">追加</n-button>
+    </n-form>
 
     <div class="mt-6">
-      <h3 class="text-lg font-medium">登録済みカード</h3>
-      <ul class="list-disc pl-5 mt-2">
-        <li v-for="card in cardStore.cards" :key="card.id">
-          {{ card.name }} <span class="text-sm text-gray-400">({{ card.id }})</span>
-        </li>
-      </ul>
+      <h3>登録済みカード</h3>
+      <n-list bordered>
+        <n-list-item
+          v-for="card in cardStore.cards"
+          :key="card.id"
+          class="flex justify-between items-center"
+        >
+          {{ card.name }}
+          <n-button size="small" type="error" @click="deleteCard(card.id)">
+            削除
+          </n-button>
+        </n-list-item>
+      </n-list>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useCardStore } from '../stores/cardStore'
-import { nanoid } from 'nanoid'
+import { NForm, NFormItem, NInput, NButton, NList, NListItem } from 'naive-ui'
 
 const cardStore = useCardStore()
+
 const newCardName = ref('')
 
-function addCard() {
+onMounted(() => {
+  cardStore.loadCards()
+})
+
+async function addCard() {
   if (!newCardName.value.trim()) return
 
-  const newCard = {
-    id: nanoid(6), // 簡易IDでOK
-    name: newCardName.value.trim()
+  try {
+    await cardStore.addCard({
+      name: newCardName.value.trim()
+    })
+    newCardName.value = ''
+  } catch (error) {
+    console.error('カード追加失敗', error)
   }
+}
 
-  cardStore.addCard(newCard)
-  newCardName.value = ''
+async function deleteCard(id: string) {
+  try {
+    await cardStore.removeCard(id)
+  } catch (error) {
+    console.error('カード削除失敗', error)
+  }
 }
 </script>
