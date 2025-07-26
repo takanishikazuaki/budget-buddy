@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { ref, computed } from 'vue'
 import { useTemplateStore } from '../stores/templateStore'
 import { useCardStore } from '../stores/cardStore'
@@ -63,6 +64,10 @@ import { useCategoryStore } from '../stores/categoryStore'
 const templateStore = useTemplateStore()
 const cardStore = useCardStore()
 const categoryStore = useCategoryStore()
+
+onMounted(() => {
+  templateStore.loadTemplates()
+})
 
 const newTemplate = ref({
   name: '',

@@ -35,7 +35,7 @@
         <n-button type="error" @click="onDelete">削除</n-button>
         <div>
           <n-button @click="close">キャンセル</n-button>
-          <n-button type="primary" native-type="submit" class="ml-2">保存</n-button>
+          <n-button type="primary" @click="onSave">保存</n-button>
         </div>
       </div>
     </n-form>
@@ -117,6 +117,8 @@ function close() {
 }
 
 async function onSave() {
+  console.log('送信前 localTransaction', localTransaction.value)
+  console.log('送信対象データ:', localTransaction.value)
   try {
     await transactionStore.updateTransaction(localTransaction.value.id, {
       date: localTransaction.value.date,
@@ -131,6 +133,7 @@ async function onSave() {
     console.error('更新失敗', e)
   }
 }
+
 
 async function onDelete() {
   try {

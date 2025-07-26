@@ -1,12 +1,14 @@
 <template>
   <div>
     <h2>カードの管理</h2>
-    <n-form @submit.prevent="addCard">
+    <n-form label-placement="top">
       <n-form-item label="カード名">
         <n-input v-model:value="newCardName" placeholder="カード名を入力" />
       </n-form-item>
 
-      <n-button type="primary" native-type="submit">追加</n-button>
+      <n-form-item>
+        <n-button type="primary" block @click="addCard">追加</n-button>
+      </n-form-item>
     </n-form>
 
     <div class="mt-6">
@@ -26,6 +28,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'

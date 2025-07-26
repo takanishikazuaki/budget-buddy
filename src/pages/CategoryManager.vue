@@ -17,7 +17,7 @@
       </n-form-item>
 
       <n-form-item>
-        <n-button type="primary" native-type="submit" block>追加</n-button>
+       <n-button type="primary" block @click="addCategory">追加</n-button>
       </n-form-item>
     </n-form>
 

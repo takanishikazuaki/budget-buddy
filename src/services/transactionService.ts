@@ -1,32 +1,38 @@
-// services/transactionService.ts
-import axios from 'axios'
+import humps from 'humps'
+import { apiClient } from './apiClient'
+import type { TransactionCreate } from '../types/Transaction'
 
-const API_BASE_URL = 'http://127.0.0.1:8000/transactions'
-
-export interface TransactionPayload {
-  date: string
-  amount: number
-  memo: string
-  card_id: string
-  category_id: string
+export interface Transaction extends TransactionCreate {
+  id: string
 }
 
-export function createTransaction(data: TransactionPayload) {
-  return axios.post(`${API_BASE_URL}/`, data)
+// 取引一覧を取得（GET /transactions/）
+export async function fetchTransactions(): Promise<Transaction[]> {
+  const response = await apiClient.get('/transactions/')
+  return humps.camelizeKeys(response.data) as Transaction[]
 }
 
-export function getTransactions() {
-  return axios.get(API_BASE_URL)
+// 新規作成（POST /transactions/）
+export async function createTransaction(tx: TransactionCreate): Promise<Transaction> {
+  const payload = humps.decamelizeKeys(tx)
+  const response = await apiClient.post('/transactions/', payload)
+  return humps.camelizeKeys(response.data) as Transaction
 }
 
-export function getTransaction(id: string) {
-  return axios.get(`${API_BASE_URL}/${id}`)
+// 取引1件取得（GET /transactions/:id）
+export async function getTransaction(id: string): Promise<Transaction> {
+  const response = await apiClient.get(`/transactions/${id}`)
+  return humps.camelizeKeys(response.data) as Transaction
 }
 
-export function updateTransaction(id: string, data: TransactionPayload) {
-  return axios.put(`${API_BASE_URL}/${id}`, data)
+// 更新（PUT /transactions/:id）
+export async function updateTransaction(id: string, tx: TransactionCreate): Promise<Transaction> {
+  const payload = humps.decamelizeKeys(tx)
+  const response = await apiClient.put(`/transactions/${id}`, payload)
+  return humps.camelizeKeys(response.data) as Transaction
 }
 
-export function deleteTransaction(id: string) {
-  return axios.delete(`${API_BASE_URL}/${id}`)
+// 削除（DELETE /transactions/:id）
+export async function deleteTransaction(id: string): Promise<void> {
+  await apiClient.delete(`/transactions/${id}`)
 }

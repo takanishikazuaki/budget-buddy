@@ -76,6 +76,7 @@
 
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { createTransaction } from '../services/transactionService.js' // ← これ追加
 import { ref, computed } from 'vue'
 import { useTransactionStore } from '../stores/transactionStore'
@@ -98,6 +99,14 @@ const categoryStore = useCategoryStore()
 const templateStore = useTemplateStore()
 
 const today = new Date().toISOString().split('T')[0]
+
+onMounted(async () => {
+  await Promise.all([
+    categoryStore.loadCategories?.(), // カテゴリを取得
+    cardStore.loadCards?.(),         // カードを取得
+    templateStore.loadTemplates?.()  // テンプレートを取得（必要なら）
+  ])
+})
 
 const form = ref<{
   date: string | null
