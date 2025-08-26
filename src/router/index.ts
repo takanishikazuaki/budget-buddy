@@ -2,12 +2,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import CsvImport from '../pages/CSVImport.vue'
-import TransactionForm from '../pages/TransactionForm.vue'
+import TransactionPage from '../pages/TransactionPage/TransactionPage.vue'
 import Dashboard from '../pages/Dashboard.vue' // 任意の統合画面
 
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/', name: 'ManualEntry', component:TransactionForm  },
+  { path: '/', name: 'ManualEntry', component:TransactionPage },
   { path: '/csv-import', name: 'CsvImport', component: CsvImport },
   {path: '/cards',name: 'CardManager',component: () => import('../pages/CardManager.vue')},
   {path: '/categories',name: 'CategoryManager',component: () => import('../pages/CategoryManager.vue')},
