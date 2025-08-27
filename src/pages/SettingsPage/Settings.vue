@@ -22,10 +22,10 @@
 
 
 <script setup lang="ts">
-import CategoryManager from './CategoryManager.vue'
-import CardManager from './CardManager.vue'
-import ThemeSettings from './ThemeSettings.vue'
-import TemplateManager from './TemplateManager.vue' 
+import CategoryManager from '../CategoryPage/CategoryManager.vue'
+import CardManager from '../CardManagerPage/CardManager.vue'
+import ThemeSettings from '../ThemeSettingPage/ThemeSettings.vue'
+import TemplateManager from '../TemplateManagerPage/TemplateManager.vue'
 
 const props = defineProps<{
   show: boolean

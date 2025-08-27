@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useMonthStore } from '../stores/useMonthStore'
-import Settings from '../pages/Settings.vue'
+import Settings from '../pages/SettingsPage/Settings.vue'
 import { NButton, NLayoutHeader } from 'naive-ui'
 
 const monthStore = useMonthStore()

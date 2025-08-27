@@ -34,17 +34,20 @@
 import { ref, onMounted } from 'vue'
 import { NCollapse } from 'naive-ui'
 
-import CalendarHeatMap from '../components/CalendarHeatMap.vue'
-import EditTransactionModal from '../components/EditTransactionModal.vue'
-import TransactionDayGroup from '../features/CalendarComponents/TransactionDayGroup.vue'
-import { useTransactionGrouping } from '../composables/useTransactionGrouping'
+import CalendarHeatMap from '../../components/CalendarHeatMap.vue'
+import EditTransactionModal from '../../components/EditTransactionModal.vue'
+import TransactionDayGroup from '../../features/CalendarComponents/TransactionDayGroup.vue'
+import { useTransactionGrouping } from '../../composables/useTransactionGrouping'
 
-import { useTransactionStore } from '../stores/transactionStore'
-import { useCategoryStore } from '../stores/categoryStore'
-import { useCardStore } from '../stores/cardStore'
-import { useMonthStore } from '../stores/useMonthStore'
+import { useTransactionStore } from '../../stores/transactionStore'
+import { useCategoryStore } from '../../stores/categoryStore'
+import { useCardStore } from '../../stores/cardStore'
+import { useMonthStore } from '../../stores/useMonthStore'
 
-import EmptyState from '../shared/ui/EmptyState.vue'
+// import EmptyState from '../../shared/ui/EmptyState.vue'
+// If EmptyState.vue exists at a different path, update the import accordingly, for example:
+// import EmptyState from '../../components/EmptyState.vue'
+
 
 const tx = useTransactionStore()
 const cat = useCategoryStore()
